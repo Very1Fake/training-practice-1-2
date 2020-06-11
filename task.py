@@ -7,11 +7,6 @@ import time
 from collections import Counter
 
 
-def exit_msg(msg: str) -> None:
-    print(msg)
-    exit(1)
-
-
 if __name__ == '__main__':
     print('Starting')
 
@@ -20,13 +15,16 @@ if __name__ == '__main__':
     else:
         path = './TASK_1_Israpilov.txt'  # Default path
 
-    try:  # Get lines count from user (with validation)
-        count = int(input('How much lines you want to save? : '))
+    while True:
+        try:  # Get lines count from user (with validation)
+            count = int(input('How much lines you want to save? : '))
 
-        if count < 1:
-            exit_msg('Line count cannot be less then 1')
-    except ValueError:
-        exit_msg('Wrong line count\nQuiting')
+            if count < 1:
+                print('Line count cannot be less then 1')
+            else:
+                break
+        except ValueError:
+            print('Wrong line count\nTry again (count must be positive integer)')
 
     print('Saving lines')
 
@@ -41,11 +39,13 @@ if __name__ == '__main__':
                 if number <= count - 1:  # Check if line is correct
                     # Save line to S_{line}.txt in ARCHIVE/
                     with open(f'{archive_path}/S_{number + 1}.txt', 'w+') as lf:
+                        print(f'Saving {number+1} line in S_{number + 1}.txt ({line})')
                         lf.write(line)
                 else:
                     break
     else:
-        exit_msg(f'File on this path ("{path}") does not exist')
+        print(f'File on this path ("{path}") does not exist')
+        exit(0)
 
     print('Lines saved')
     print('Saving stats')
